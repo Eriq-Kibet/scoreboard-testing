@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Display } from "./Components/Display";
+import { Controls } from "./Components/Controls";
+import "./App.css";
 
 function App() {
+  const [strikes, setStrikes] = useState(0);
+  const [balls, setBalls] = useState(0);
+  const [fouls, setFouls] = useState(0);
+  const [hits, setHits] = useState(0);
+
+  const scoreStrike = () => {
+    if (strikes === 2) {
+      setStrikes(0);
+      setBalls(0);
+    } else {
+      setStrikes(strikes + 1);
+    }
+  };
+  const scoreBalls = () => {
+    if (balls === 3) {
+      setStrikes(0);
+      setBalls(0);
+    } else {
+      setBalls(balls + 1);
+    }
+  };
+  const scoreFouls = () => {
+    if (strikes !== 2) {
+      setStrikes(strikes + 1);
+    }
+  };
+  const scoreHits = () => {
+    setStrikes(0);
+    setHits(0);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Display strikes={strikes} balls={balls} />
+      <Controls
+        strike={scoreStrike}
+        ball={scoreBalls}
+        foul={scoreFouls}
+        hit={scoreHits}
+      />
     </div>
   );
 }
